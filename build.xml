@@ -1,0 +1,33 @@
+<project>
+	<property name="Common.dir" value="../Common" />
+	<property name="build.dir" value="bin" />
+	<property name="dist.dir" value="dist" />
+	<property name="src.dir" value="src" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${Common.dir}/${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init">
+	</target>
+
+	<target name="build" depends="init">
+		<mkdir dir="${Common.dir}/${build.dir}" />
+		<javac srcdir="${Common.dir}/${src.dir}" destdir="${Common.dir}/${build.dir}" />
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" classpath="${Common.dir}/${build.dir}" />
+	</target>
+
+	<target name="dist" depends="init">
+		<mkdir dir="${dist.dir}" />
+		<jar destfile="${dist.dir}/chunks.jar">
+			<fileset dir="${build.dir}" />
+			<fileset dir="${Common.dir}/${build.dir}" />
+			<manifest>
+				<attribute name="Main-Class" value="com.eyalzo.filesimilarityanalysis.Main" />
+			</manifest>
+		</jar>
+	</target>
+</project>
